@@ -34,7 +34,7 @@ export default function SideNav() {
         <Link to={'/user'}>DashBoard</Link>
       </Button>
       <Button onClick={() => setNewAlbum(!newAlbum)}>New Album</Button>
-      {newAlbum && <NewAlbum />}
+      {newAlbum && <NewAlbum fromSideBar />}
       <Box padding={'20px 0 0 0 '}>
         <h4>Albums</h4>
         {albums?.map(col => {

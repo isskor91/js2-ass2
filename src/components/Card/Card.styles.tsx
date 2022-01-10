@@ -10,6 +10,7 @@ export const BaseCard = styled.div<TBaseCard>`
   cursor: pointer;
   position: relative;
   ${props => props.selected && `border: 5px solid ${props.selectBorderColor}`}
+  margin-bottom: 20px;
 `;
 
 export const ModalWrapper = styled.div`
@@ -32,4 +33,10 @@ export const ModalChild = styled.div`
   min-width: 50vw;
   overflow: hidden;
   cursor: pointer;
+
+  img {
+    object-fit: inherit;
+    height: 100%;
+    width: 100%;
+  }
 `;

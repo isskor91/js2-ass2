@@ -10,7 +10,7 @@ import Card from '../../components/Card';
 import FileUpload from '../../components/FileUpload';
 import { FlexBox } from '../../components/FlexBox/FlexBox';
 import Form from '../../components/Form';
-import Grid from '../../components/Grid';
+import Masonry from '../../components/Masonry';
 import { auth, db } from '../../firebase';
 import NewAlbum from '../../modules/NewAlbum';
 import { TImage } from '../../types';
@@ -19,7 +19,6 @@ export default function Album() {
   const [user] = useAuthState(auth);
   const [newAlbum, setNewAlbum] = useState(false);
   const [addingImages, setAddingImages] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
   const [copyToNew, setCopyToNew] = useState(false);
   const [selected, setSelected] = useState<TImage[] | []>([]);
   const newNameRef = useRef<HTMLInputElement | null>(null);
@@ -81,7 +80,6 @@ export default function Album() {
   useEffect(() => {
     setReviewLink(null);
     setAddingImages(false);
-    setIsEditing(false);
     setEditName(false);
   }, [images]);
 
@@ -97,6 +95,7 @@ export default function Album() {
                   setAddingImages(false);
                 }}
                 active={newAlbum}
+                disabled={copyToNew}
               >
                 New Album
               </Button>
@@ -108,17 +107,9 @@ export default function Album() {
               >
                 Add Images
               </Button>
+
               <Button
-                active={isEditing}
-                onClick={() => {
-                  setIsEditing(!isEditing);
-                  isEditing && setCopyToNew(false);
-                }}
-              >
-                Edit Album
-              </Button>
-              <Button
-                disabled={!isEditing}
+                disabled={newAlbum}
                 onClick={() => setCopyToNew(!copyToNew)}
                 active={copyToNew}
               >
@@ -164,28 +155,35 @@ export default function Album() {
             {parentLoc[parentLoc.length - 1] === 'albums' && reviewLink && (
               <div>
                 <p>Review link</p>
-                <textarea
-                  style={{ minWidth: '50%' }}
-                  value={reviewLink}
-                  readOnly
-                ></textarea>
+                <FlexBox align={'center'} gap={10}>
+                  <textarea
+                    style={{ minWidth: '50%', maxWidth: '300px' }}
+                    value={reviewLink}
+                    readOnly
+                  ></textarea>
+                  <Button
+                    onClick={() => navigator.clipboard.writeText(reviewLink)}
+                  >
+                    Copy
+                  </Button>
+                </FlexBox>
               </div>
             )}
-            <Grid>
+            <Masonry>
               {images?.images?.map((image: TImage, index: number) => (
                 <Card
                   key={index}
                   selected={selected.some(i => image === i)}
                   onClick={() => {
-                    if (!isEditing) return;
+                    if (!copyToNew) return;
                     handleSelect(image);
                   }}
-                  noModal={isEditing}
+                  noModal={copyToNew}
                 >
                   <img src={image.url} alt='' />
                 </Card>
               ))}
-            </Grid>
+            </Masonry>
           </Box>
         )}
       </FlexBox>

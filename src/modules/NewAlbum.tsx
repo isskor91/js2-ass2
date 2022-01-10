@@ -1,7 +1,7 @@
 import { addDoc, collection } from 'firebase/firestore';
 import React, { useRef } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Form from '../components/Form';
 import { auth, db } from '../firebase';
 import { TImage } from '../types';
@@ -11,6 +11,7 @@ export type TNewAlbum = {
   title?: string;
   buttonLabel?: string;
   images?: TImage[];
+  fromSideBar?: boolean;
 };
 
 export default function NewAlbum({
@@ -18,6 +19,7 @@ export default function NewAlbum({
   onComplete,
   buttonLabel = 'create album',
   images,
+  fromSideBar,
 }: TNewAlbum) {
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
@@ -33,7 +35,12 @@ export default function NewAlbum({
         images: images ?? [],
       });
       if (docRef) {
-        navigate(`albums/${docRef.id}`, { replace: true });
+        if (location.pathname.includes('albums')) {
+          console.log(true);
+        }
+        fromSideBar
+          ? navigate(`albums/${docRef.id}`, { replace: true })
+          : navigate(`${docRef.id}`, { replace: true });
         onComplete && onComplete();
       }
     } catch (e) {}
