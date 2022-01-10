@@ -36,10 +36,7 @@ export default function NewAlbum({
         navigate(`albums/${docRef.id}`, { replace: true });
         onComplete && onComplete();
       }
-      console.log(docRef);
-    } catch (e) {
-      console.log(e);
-    }
+    } catch (e) {}
   };
 
   return (

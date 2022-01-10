@@ -52,7 +52,6 @@ export default function Preview() {
   };
 
   const createAlbum = async () => {
-    console.log('sdasdas');
     try {
       const docRef = await addDoc(
         collection(db, 'users', params?.authId ?? '_', 'reviewedAlbums'),
@@ -64,9 +63,7 @@ export default function Preview() {
       if (docRef) {
         setComplete(true);
       }
-    } catch (e) {
-      console.log(e);
-    }
+    } catch (e) {}
   };
   if (complete) {
     return (

@@ -1,12 +1,13 @@
 import React, { useContext, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Box from '../../components/Box/Box';
 import Button from '../../components/Button';
 import { AppContext } from '../../context/AppContext';
+import { signOut } from 'firebase/auth';
 
-import { auth, db } from '../../firebase';
+import { auth } from '../../firebase';
 import useUserAlbums from '../../hooks/useUserAlbums';
 import NewAlbum from '../NewAlbum';
 import * as styles from './SideNav.styles';
@@ -16,11 +17,16 @@ export default function SideNav() {
   const [newAlbum, setNewAlbum] = useState(false);
   const { albums, reviewedAlbums } = useUserAlbums();
   const { menuOpen } = useContext(AppContext);
+  const navigate = useNavigate();
+  const logout = async () => {
+    await signOut(auth);
+    navigate('/', { replace: true });
+  };
   return (
     <styles.NavContainer open={menuOpen}>
       <styles.NavMobileButton></styles.NavMobileButton>
       <div>
-        <Button>Sign out</Button>
+        <Button onClick={logout}>Sign out</Button>
       </div>
       <Box padding={'0 0 0 12px'}>{user?.email ?? ''}</Box>
 

@@ -12,15 +12,12 @@ export default function Login() {
     e.preventDefault();
     if (emailRef?.current?.value && passwordRef?.current?.value) {
       try {
-        const res = await signInWithEmailAndPassword(
+        await signInWithEmailAndPassword(
           auth,
           emailRef.current.value,
           passwordRef.current.value
         );
-        console.log(res);
-      } catch (e) {
-        console.log(e);
-      }
+      } catch (e) {}
     }
   };
   return (

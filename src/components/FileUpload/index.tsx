@@ -47,7 +47,6 @@ export default function FileUpload({ docRef }: TFileUpload) {
         e.target.files &&
         Array.from(e.target.files).forEach(image => handleUpload(image))
       }
-      onClick={() => console.log(docRef)}
     />
   );
 }

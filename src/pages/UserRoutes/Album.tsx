@@ -45,8 +45,6 @@ export default function Album() {
       snapshotListenOptions: { includeMetadataChanges: true },
     }
   );
-  console.log(images);
-  console.log('1231');
   const handleSelect = (item: TImage) => {
     if (selected.some(i => item === i)) {
       setSelected(selected.filter(i => i !== item));
@@ -77,13 +75,14 @@ export default function Album() {
         const domainPath = window.location.href.replace(location.pathname, '');
         setReviewLink(`${domainPath}/preview/${user?.uid}/${docRef.id}`);
       }
-    } catch (e) {
-      console.log(e);
-    }
+    } catch (e) {}
   };
 
   useEffect(() => {
-    setReviewLink('');
+    setReviewLink(null);
+    setNewAlbum(false);
+    setEditName(false);
+    setIsEditing(false);
   }, [images, parentLoc]);
 
   return (
@@ -137,7 +136,8 @@ export default function Album() {
                 images={selected}
               />
             )}
-            {(addingImages || !images?.images) && (
+            {(addingImages ||
+              (Array.isArray(images?.images) && !images?.images.length)) && (
               <Box padding={'0 0 0 20px'}>
                 <FlexBox flexDirection={'column'} gap={20}>
                   no images found add some!
