@@ -80,10 +80,10 @@ export default function Album() {
 
   useEffect(() => {
     setReviewLink(null);
-    setNewAlbum(false);
-    setEditName(false);
+    setAddingImages(false);
     setIsEditing(false);
-  }, [images, parentLoc]);
+    setEditName(false);
+  }, [images]);
 
   return (
     <Box>
@@ -161,10 +161,14 @@ export default function Album() {
                 </FlexBox>
               </Form>
             )}
-            {reviewLink && (
+            {parentLoc[parentLoc.length - 1] === 'albums' && reviewLink && (
               <div>
                 <p>Review link</p>
-                <textarea style={{ minWidth: '50%' }}>{reviewLink}</textarea>
+                <textarea
+                  style={{ minWidth: '50%' }}
+                  value={reviewLink}
+                  readOnly
+                ></textarea>
               </div>
             )}
             <Grid>
