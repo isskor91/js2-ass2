@@ -22,8 +22,8 @@ const App = () => {
         <Routes>
           <Route path={'register'} element={<Register />} />
           <Route path={'/'} element={<Home />} />
-          {user && <Route path={'user/*'} element={<UserRoutes />} />}
           <Route path={'preview/:authId/:previewId'} element={<Preview />} />
+          <Route path={'user/*'} element={<UserRoutes />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
       </>
